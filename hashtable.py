@@ -6,7 +6,7 @@ from Person import *
 class HashTableLinkedList:
     def __init__(self, table_size:int):
         self.size = table_size
-        self.storage = [MyLinkedList() for _ in self.size]
+        self.storage = [MyLinkedList() for _ in range(self.size)]
 
     def insert(self, key_person: Person, value):
         hash_code = key_person.generate_hashcode() % self.size
