@@ -16,13 +16,13 @@ class HashTableLinkedList:
         hash_code = key_person.generate_hashcode % self.size
         linked_list = self.storage[hash_code]
         head = linked_list.head
-        if head.data != None:
-            if head.data[0] == key_person:
+        if head.data is not None:
+            if head.data[0] is key_person:
                 return True
             node = head
-            while node.next != None:
+            while node.next is not None:
                 node = node.next_element
-                if node.data[0] == key_person:
+                if node.data[0] is key_person:
                     return True
         return False
 
@@ -38,15 +38,27 @@ class HashTableLinkedList:
 class HashTableBT:
     def __init__(self):
         self.storage = MyRedBlackTree()
-
-    #Unhandled Collsions
     
     def insert(self, key_person: Person, value):
         data = key_person.generate_hashcode()
-        data.value = value
-        self.storage.insert(data)
+        node = self.contain(key_person)
+        if node is not None:
+            node.data.value.append([key_person, value])
+        else:
+            ll = MyLinkedList()
+            ll.append([key_person, value])
+            data.value = ll
+            self.storage.insert(data)
 
-    #searches only for hashcode
+
     def contain(self, key_person: Person):
-        return self.storage.contains(key_person.generate_hashcode())
+        node = self.storage.contains_node(key_person.generate_hashcode())
+        if node is not None:
+            list_node = node.data.value.head
+            if key_person is list_node[0]:
+                return True
+            while list_node.next is not None:
+                if key_person is list_node[0]:
+                    return True
+        return False
 

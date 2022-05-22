@@ -1,6 +1,4 @@
 from structures.UserPrintData import UserData
-from termcolor import colored
-
 
 class BalancedNode:
 
@@ -26,6 +24,8 @@ class BalancedNode:
 class MyRedBlackTree:
 
     def __init__(self):
+        self.NULL = BalancedNode(None, None)
+        self.NULL.color = "Black"
         self.root = None
 
     def __recursion_up_down_print(self, starter, user_data):
@@ -165,18 +165,33 @@ class MyRedBlackTree:
             self.__recursive_insertion(starter.right, data)
 
     def __recursive_search(self, starter, data):
-        if starter.data == data:
-            return True
-        elif data < starter.data and not (starter.left is None):
-            return self.__recursive_search(starter.left, data)
-        elif data > starter.data and not (starter.right is None):
-            return self.__recursive_search(starter.right, data)
-        else:
+        if starter is None:
             return False
+        if data == starter.data:
+            return True
+        elif data < starter.data:
+            return self.__recursive_search(starter.left, data)
+        elif data > starter.data:
+            return self.__recursive_search(starter.right, data)
 
 
     def contains(self, data):
-        self.__recursive_search(self.root, data)
+         return self.__recursive_search(self.root, data)
+
+
+    def __search_return(self, starter, data):
+        if starter is None:
+            return None
+        if data == starter.data:
+            return starter
+        elif data < starter.data:
+            return self.__search_return(starter.left, data)
+        elif data > starter.data:
+            return self.__search_return(starter.right, data)
+
+    def contains_node(self, data):
+        return self.__search_return(self.root, data)
+
 
     def insert(self, data):
         if self.root is None:
@@ -210,7 +225,7 @@ class MyRedBlackTree:
             b.parent = a.parent
 
     def __node_search(self, node, data):
-        while node is not None:  
+        while node is not None:  # Search for the node having that value/ key and store it in 'z'
             if node.data == data:
                 return node
             if node.data <= data:
