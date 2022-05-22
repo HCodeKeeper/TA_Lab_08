@@ -13,7 +13,7 @@ class HashTableLinkedList:
         self.storage[hash_code].append([key_person, value]) #Duplicates are possible
 
     def contain(self, key_person: Person):
-        hash_code = key_person.generate_hashcode % self.size
+        hash_code = key_person.generate_hashcode() % self.size
         linked_list = self.storage[hash_code]
         head = linked_list.head
         if head.data is not None:
@@ -41,7 +41,7 @@ class HashTableBT:
     
     def insert(self, key_person: Person, value):
         data = key_person.generate_hashcode()
-        node = self.contain(key_person)
+        node = self.contain_node(key_person)
         if node is not None:
             node.data.value.append([key_person, value])
         else:
