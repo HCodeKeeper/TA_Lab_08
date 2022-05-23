@@ -1,4 +1,5 @@
-from structures.UserPrintData import UserData
+from .UserPrintData import UserData
+from .LinkedList import MyLinkedList
 
 class BalancedNode:
 
@@ -8,6 +9,7 @@ class BalancedNode:
         self.left = None
         self.right = None
         self.color = "Red"
+        self.key_value_pairs_list = MyLinkedList()
 
     def set_parent(self, new_p):
         self.parent = new_p
@@ -110,26 +112,24 @@ class MyRedBlackTree:
             if not (node.parent.parent is None) and node.parent.parent.children() == 2:
 
                 if node.parent.parent.left.data == node.parent.data and node.parent.parent.right.color == "Black":
-                    if node.parent.left.data == node.data:
+                    if not (node.parent.left is None) and node.parent.left.data == node.data:
                         self.__left_left_case(node.parent.parent)
-                    elif node.parent.right == node.data:
+                    elif not (node.parent.right is None) and node.parent.right.data == node.data:
                         self.__left_right_case(node.parent.parent)
 
                 elif node.parent.parent.right.data == node.parent.data and node.parent.parent.left.color == "Black":
-                    if node.parent.left.data == node.data:
+                    if not (node.parent.left is None) and node.parent.left.data == node.data:
                         self.__right_left_case(node.parent.parent)
-                    elif node.parent.right.data == node.data:
+                    elif not (node.parent.right is None) and node.parent.right.data == node.data:
                         self.__right_right_case(node.parent.parent)
 
                 elif (node.parent.parent.left.data == node.parent.data and node.parent.parent.right.color == "Red") or (
                         node.parent.parent.right.data == node.parent.data and node.parent.parent.left.color == "Red"):
-
                     node.parent.parent.left.color = "Black"
                     node.parent.parent.right.color = "Black"
                     if node.parent.parent.data == self.root.data:
                         return
                     else:
-
                         node.parent.parent.color = "Red"
                         self.__balance(node.parent.parent)
 
@@ -143,26 +143,27 @@ class MyRedBlackTree:
                         self.__left_right_case(node.parent.parent)
 
                 elif not (node.parent.parent.right is None) and node.parent.parent.right.data == node.parent.data:
-
                     if not (node.parent.left is None) and node.parent.left.data == node.data:
                         self.__right_left_case(node.parent.parent)
                     elif not (node.parent.right is None) and node.parent.right.data == node.data:
                         self.__right_right_case(node.parent.parent)
 
-    def __recursive_insertion(self, starter, data):
+    def __recursive_insertion(self, starter, data, value):
         if starter.data == data:
-            raise Exception("Can not insert already existing value")
+            starter.key_value_pairs_list.append(value)
         elif data < starter.data and starter.left is None:
             starter.left = BalancedNode(data, starter)
+            starter.left.key_value_pairs_list.append(value)
             self.__balance(starter.left)
         elif data > starter.data and starter.right is None:
             starter.right = BalancedNode(data, starter)
+            starter.right.key_value_pairs_list.append(value)
             self.__balance(starter.right)
 
         elif data < starter.data and not (starter.left is None):
-            self.__recursive_insertion(starter.left, data)
+            self.__recursive_insertion(starter.left, data, value)
         elif data > starter.data and not (starter.right is None):
-            self.__recursive_insertion(starter.right, data)
+            self.__recursive_insertion(starter.right, data, value)
 
     def __recursive_search(self, starter, data):
         if starter is None:
@@ -193,13 +194,14 @@ class MyRedBlackTree:
         return self.__search_return(self.root, data)
 
 
-    def insert(self, data):
+    def insert(self, data, value):
         if self.root is None:
             self.root = BalancedNode(data, None)
+            self.root.key_value_pairs_list.append(value)
             self.root.color = "Black"
             return
 
-        self.__recursive_insertion(self.root, data)
+        self.__recursive_insertion(self.root, data, value)
 
     def up_down_print(self):
         if self.root is None:

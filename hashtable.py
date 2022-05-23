@@ -3,14 +3,15 @@ from structures.LinkedList import MyLinkedList
 from structures.RedBlackTree import MyRedBlackTree
 from Person import *
 
+
 class HashTableLinkedList:
-    def __init__(self, table_size:int):
+    def __init__(self, table_size: int):
         self.size = table_size
         self.storage = [MyLinkedList() for _ in range(self.size)]
 
     def insert(self, key_person: Person, value):
         hash_code = key_person.generate_hashcode() % self.size
-        self.storage[hash_code].append([key_person, value]) #Duplicates are possible
+        self.storage[hash_code].append([key_person, value])  # Duplicates are possible
 
     def contain(self, key_person: Person):
         hash_code = key_person.generate_hashcode() % self.size
@@ -20,7 +21,7 @@ class HashTableLinkedList:
             if head.data[0] is key_person:
                 return True
             node = head
-            while node.next is not None:
+            while node.next_element is not None:
                 node = node.next_element
                 if node.data[0] is key_person:
                     return True
@@ -38,27 +39,19 @@ class HashTableLinkedList:
 class HashTableBT:
     def __init__(self):
         self.storage = MyRedBlackTree()
-    
-    def insert(self, key_person: Person, value):
-        data = key_person.generate_hashcode()
-        node = self.storage.contain_node(key_person)
-        if node is not None:
-            node.data.value.append([key_person, value])
-        else:
-            ll = MyLinkedList()
-            ll.append([key_person, value])
-            data.value = ll
-            self.storage.insert(data)
 
+    def insert(self, key_person: Person):
+        data = key_person.generate_hashcode()
+        node = self.storage.contains_node(data)
+        if node is not None:
+            node.key_value_pairs_list.append(key_person)
+        else:
+            self.storage.insert(data, key_person)
 
     def contain(self, key_person: Person):
         node = self.storage.contains_node(key_person.generate_hashcode())
         if node is not None:
-            list_node = node.data.value.head
-            if key_person is list_node[0]:
+            person_list = node.key_value_pairs_list
+            if person_list.get_element_index(key_person) != -1:
                 return True
-            while list_node.next is not None:
-                if key_person is list_node[0]:
-                    return True
         return False
-

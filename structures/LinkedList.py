@@ -110,7 +110,7 @@ class MyLinkedList(ICollection):
         local_index = 0
         current_el = self.head
         while current_el.next_element is not None:
-            if current_el.data == value:
+            if current_el.data is value:
                 return local_index
             current_el = current_el.next_element
             local_index += 1
