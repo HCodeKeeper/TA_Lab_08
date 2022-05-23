@@ -41,7 +41,7 @@ class HashTableBT:
     
     def insert(self, key_person: Person, value):
         data = key_person.generate_hashcode()
-        node = self.contain_node(key_person)
+        node = self.storage.contain_node(key_person)
         if node is not None:
             node.data.value.append([key_person, value])
         else:
