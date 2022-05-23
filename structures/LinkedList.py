@@ -107,10 +107,13 @@ class MyLinkedList(ICollection):
         if self.head is None:
             return
 
+        if self.head.data.name == value.name and self.head.data.surname == value.surname:
+            return 0
+
         local_index = 0
         current_el = self.head
         while current_el.next_element is not None:
-            if current_el.data is value:
+            if current_el.data.name == value.name and current_el.data.surname == value.surname:
                 return local_index
             current_el = current_el.next_element
             local_index += 1

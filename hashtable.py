@@ -50,6 +50,7 @@ class HashTableBT:
 
     def contain(self, key_person: Person):
         node = self.storage.contains_node(key_person.generate_hashcode())
+        print(node.key_value_pairs_list.head.data)
         if node is not None:
             person_list = node.key_value_pairs_list
             if person_list.get_element_index(key_person) != -1:

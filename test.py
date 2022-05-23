@@ -13,28 +13,32 @@ for i in range(5000):
     for j in range(random.randrange(2, 12)):
         name += c[random.randrange(0, len(c))]
     names.append(name)
-print("added names")
+
 arr = []
 # codes = []
-for i in range(200000):
-    arr.append(Person(names[random.randrange(1, len(names))], names[random.randrange(1, len(names))]))
+# for i in range(200000):
+#     arr.append(Person(names[random.randrange(1, len(names))], names[random.randrange(1, len(names))]))
     # codes.append(arr[i].generate_hashcode())
 
 # table = HashTableLinkedList(250000)
 
-table = HashTableBT()
-time1 = time.perf_counter()
-for i in range(1000):
-    table.insert(arr[i])
-time2 = time.perf_counter()
-print((time2 - time1) * 1000)
-
-
-for i in range(500, 1000):
-    table.contain(arr[i])
-
+# table = HashTableBT()
+# time1 = time.perf_counter()
+# for i in range(1000):
+#     table.insert(arr[i])
+# time2 = time.perf_counter()
+# print((time2 - time1) * 1000)
 #
-# pers = Person("Danilo", "Berkovskyi")
-# table.insert(pers, 1001)
-# print("added in table")
-# print(table.contain(pers))
+#
+# for i in range(500, 1000):
+#     table.contain(arr[i])
+
+table = HashTableBT()
+print("Insert Jack The Ripper")
+jack = Person("Jack", "Ripper")
+print("Insert Bill Andrews")
+william = Person("Bill", "Andrews")
+table.insert(jack)
+table.insert(william)
+print("Does table contain Jack The Ripper?", table.contain(jack))
+print("Does table contain Bill Andrews?", table.contain(william))
