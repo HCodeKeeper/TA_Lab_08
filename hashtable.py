@@ -40,19 +40,23 @@ class HashTableBT:
     def __init__(self):
         self.storage = MyRedBlackTree()
 
-    def insert(self, key_person: Person):
+    def insert(self, key_person: Person, value):
         data = key_person.generate_hashcode()
         node = self.storage.contains_node(data)
         if node is not None:
-            node.key_value_pairs_list.append(key_person)
+            node.key_value_pairs_list.append([key_person, value])
         else:
-            self.storage.insert(data, key_person)
+            self.storage.insert(data, [key_person, value])
 
     def contain(self, key_person: Person):
         node = self.storage.contains_node(key_person.generate_hashcode())
-        print(node.key_value_pairs_list.head.data)
         if node is not None:
             person_list = node.key_value_pairs_list
-            if person_list.get_element_index(key_person) != -1:
+            node = person_list.head
+            if node.data[0] is key_person:
                 return True
+            while node.next_element is not None:
+                if node.data[0] is key_person:
+                    return True
+                node = node.next_element
         return False
